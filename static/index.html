@@ -1,52 +1,345 @@
 <!doctype html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="referrer" content="no-referrer" />
+    <title>PRISM</title>
+    <link rel="shortcut icon" href="/favicon.png" />
+    <style>
+      :root {
+        --bg: #000000;
+        --bg-soft: #111111;
+        --panel: #171717;
+        --panel-strong: #1f1f1f;
+        --line: rgba(255, 255, 255, 0.18);
+        --text: #f5f5f5;
+        --muted: rgba(255, 255, 255, 0.7);
+        --white: #ffffff;
+        --shadow: rgba(255, 255, 255, 0.08);
+      }
 
-<head>
-  <meta charset="UTF-8" />
-  <meta name="referrer" content="no-referrer" />
-  <meta http-equiv="X-Content-Type-Options" content="nosniff" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" id="tab-favicon" href="favicon.png" />
-  <title id="t">Home</title>
-  <link rel="stylesheet" href="/assets/css/global.css?v=6" />
-  <link rel="stylesheet" href="/assets/css/h.css?v=01" />
-  <link rel="stylesheet" href="/assets/css/nav.css?v=01" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6840529569014734"
-    crossorigin="anonymous"></script>
-</head>
+      * { box-sizing: border-box; }
 
-<body class="center" onload="SplashT">
-  <div class="f-nav"></div>
-  <div id="particles-js">
-    <script rel="preload" src="https://cdn.jsdelivr.net/particles.js/2.0.0/"></script>
-    <div class="main">
-      <h1 class="title">PRISM</h1>
-      <p id="splash"></p>
-      <div class="search-container">
-        <form id="fv" method="POST">
-          <input id="input" class="truncate" placeholder="Search or enter a URL" type="text" />
-        </form>
-      </div>
-    </div>
-  </div>
-  <script src="assets/js/index-3.js"></script>
-  <script src="/assets/js/h1.js"></script>
-  <script src="./assets/mathematics/bundle.js?v=2025-04-15"></script>
-  <script src="./assets/mathematics/config.js?v=2025-04-15"></script>
-  <script src="/assets/js/m1.js"></script>
-  <!-- DO NOT REMOVE-->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-WKJQ5QHQTJ"></script>
-  <script>
-    window.dataLayer = window.dataLayer || []
-    function gtag() {
-      dataLayer.push(arguments)
-    }
-    gtag("js", new Date())
+      html, body {
+        margin: 0;
+        min-height: 100%;
+        background: var(--bg);
+        color: var(--text);
+        font-family: Inter, "Segoe UI", sans-serif;
+      }
 
-    gtag("config", "G-WKJQ5QHQTJ")
-  </script>
-  <!-- DO NOT REMOVE-->
-</body>
+      body {
+        background:
+          radial-gradient(circle at top, rgba(255,255,255,0.08), transparent 30%),
+          #000;
+      }
 
+      .topbar {
+        position: sticky;
+        top: 0;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 2rem;
+        background: rgba(0, 0, 0, 0.82);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .brand {
+        font-size: 1.8rem;
+        font-weight: 800;
+        letter-spacing: 0.45rem;
+        text-transform: uppercase;
+      }
+
+      .nav-tabs {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.6rem;
+        flex-wrap: wrap;
+      }
+
+      .nav-tab,
+      .settings-button {
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.7rem 1.1rem;
+        font-size: 0.8rem;
+        letter-spacing: 0.12rem;
+        text-transform: uppercase;
+        text-decoration: none;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .nav-tab:hover,
+      .settings-button:hover {
+        background: var(--white);
+        color: var(--bg);
+        border-color: var(--white);
+        transform: translateY(-1px);
+      }
+
+      .nav-tab.active {
+        background: var(--white);
+        color: var(--bg);
+        border-color: var(--white);
+      }
+
+      .page-shell {
+        width: min(1200px, calc(100% - 2rem));
+        margin: 2rem auto 3rem;
+      }
+
+      .tab-pane {
+        display: none;
+        min-height: 70vh;
+      }
+
+      .tab-pane.active {
+        display: block;
+      }
+
+      #home {
+        display: block;
+      }
+
+      .hero {
+        display: grid;
+        place-items: center;
+        text-align: center;
+        min-height: 70vh;
+        padding: 3rem 1rem;
+      }
+
+      .hero-inner {
+        width: min(760px, 100%);
+      }
+
+      .eyebrow {
+        display: inline-block;
+        color: var(--muted);
+        letter-spacing: 0.36rem;
+        text-transform: uppercase;
+        font-size: 0.72rem;
+        margin-bottom: 1rem;
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(3rem, 8vw, 8rem);
+        letter-spacing: 0.5rem;
+        text-transform: uppercase;
+        font-weight: 900;
+      }
+
+      .subtitle {
+        margin: 1.25rem auto 2rem;
+        max-width: 640px;
+        line-height: 1.6;
+        color: var(--muted);
+        font-size: 1.05rem;
+      }
+
+      .search-shell {
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.02);
+        border-radius: 999px;
+        padding: 0.45rem 0.5rem 0.45rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.7rem;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .search-shell input {
+        flex: 1;
+        background: transparent;
+        border: 0;
+        color: var(--text);
+        font-size: 1rem;
+        outline: none;
+        min-width: 0;
+      }
+
+      .search-shell input::placeholder {
+        color: rgba(255,255,255,0.48);
+      }
+
+      .search-shell button {
+        border: 1px solid var(--white);
+        background: var(--white);
+        color: var(--bg);
+        border-radius: 999px;
+        padding: 0.8rem 1.2rem;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.12rem;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .feature-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        margin-top: 2.5rem;
+      }
+
+      .feature-card {
+        border: 1px solid var(--line);
+        background: rgba(255,255,255,0.015);
+        border-radius: 1rem;
+        padding: 1.25rem;
+        text-align: left;
+      }
+
+      .feature-card h2 {
+        margin: 0 0 0.6rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.14rem;
+        text-transform: uppercase;
+      }
+
+      .feature-card p {
+        margin: 0;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .blank-panel {
+        min-height: 60vh;
+        border: 1px dashed rgba(255,255,255,0.18);
+        border-radius: 1rem;
+        background: rgba(255,255,255,0.01);
+      }
+
+      @media (max-width: 768px) {
+        .topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .nav-tabs {
+          justify-content: flex-start;
+        }
+
+        .feature-row {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="brand">PRISM</div>
+      <nav class="nav-tabs" aria-label="Main navigation">
+        <button class="nav-tab active" data-tab="home" type="button">Home</button>
+        <button class="nav-tab" data-tab="proxy" type="button">Proxy</button>
+        <button class="nav-tab" data-tab="games" type="button">Games</button>
+        <button class="nav-tab" data-tab="apps" type="button">Apps</button>
+        <button class="nav-tab" data-tab="chat" type="button">Chat</button>
+        <button class="nav-tab" data-tab="links" type="button">Links</button>
+        <button class="nav-tab" data-tab="profile" type="button">Profile</button>
+      </nav>
+      <a class="settings-button" href="/settings.html">Settings</a>
+    </header>
+
+    <main class="page-shell">
+      <section class="tab-pane active" id="home">
+        <div class="hero">
+          <div class="hero-inner">
+            <div class="eyebrow">Unblocked Games</div>
+            <h1>PRISM</h1>
+            <p class="subtitle">
+              A clean black-and-white portal for games, quick tools, and proxy access. Built for a first test release.
+            </p>
+
+            <form class="search-shell" id="prism-search" method="post">
+              <input id="prism-input" type="text" placeholder="Search or enter a URL" aria-label="Search or enter a URL" />
+              <button type="submit">Go</button>
+            </form>
+
+            <div class="feature-row">
+              <article class="feature-card">
+                <h2>Home</h2>
+                <p>Launch point for the PRISM experience.</p>
+              </article>
+              <article class="feature-card">
+                <h2>Proxy</h2>
+                <p>Ready for future proxy features.</p>
+              </article>
+              <article class="feature-card">
+                <h2>Games</h2>
+                <p>Blank for now while the test is running.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="tab-pane" id="proxy">
+        <div class="blank-panel"></div>
+      </section>
+
+      <section class="tab-pane" id="games">
+        <div class="blank-panel"></div>
+      </section>
+
+      <section class="tab-pane" id="apps">
+        <div class="blank-panel"></div>
+      </section>
+
+      <section class="tab-pane" id="chat">
+        <div class="blank-panel"></div>
+      </section>
+
+      <section class="tab-pane" id="links">
+        <div class="blank-panel"></div>
+      </section>
+
+      <section class="tab-pane" id="profile">
+        <div class="blank-panel"></div>
+      </section>
+    </main>
+
+    <script>
+      const navButtons = document.querySelectorAll('.nav-tab');
+      const panes = document.querySelectorAll('.tab-pane');
+
+      navButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const target = button.dataset.tab;
+
+          navButtons.forEach((navButton) => {
+            navButton.classList.toggle('active', navButton === button);
+          });
+
+          panes.forEach((pane) => {
+            pane.classList.toggle('active', pane.id === target);
+          });
+        });
+      });
+
+      const prismSearch = document.getElementById('prism-search');
+      const prismInput = document.getElementById('prism-input');
+
+      prismSearch.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const value = prismInput.value.trim();
+        if (!value) return;
+        sessionStorage.setItem('GoUrl', value);
+        window.location.href = '/d';
+      });
+    </script>
+  </body>
 </html>
